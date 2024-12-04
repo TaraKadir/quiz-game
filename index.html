@@ -5,7 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
-    <title>Document</title>
+    <title>JavaScript Quiz</title>
   </head>
-  <body></body>
+  <body>
+
+    <div id="start-screen" class="visible">
+    <h1 class="quiz-title">Challenge Your JavaScript Skills</h1>
+    <h2 class="under-title">Think you know JavaScript? Let's find out!</h2>
+    <button class="start-btn">Start the Quiz</button>
+    </div>
+
+<div id="question-screen" class="hidden">
+    <h3 id="question-title">Här ska frågan visas</h3>
+    <div id="answer-container">
+    </div>
+    <button class="next-btn" id="next-btn">Next</button>
+</div>
+
+<div id="result-screen" class="hidden">
+    <h2 id="result-title">Your Results</h2>
+    <p id="score-summary"></p>
+    <button class="restart-btn" id="restart-btn">Restart Quiz</button>
+</div>
+
+</div>
+  </body>
 </html>
