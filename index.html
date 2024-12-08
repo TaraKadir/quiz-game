@@ -8,26 +8,24 @@
     <title>JavaScript Quiz</title>
   </head>
   <body>
-
     <div id="start-screen" class="visible">
-    <h1 class="quiz-title">Challenge Your JavaScript Skills</h1>
-    <h2 class="under-title">Think you know JavaScript? Let's find out!</h2>
-    <button class="start-btn">Start the Quiz</button>
+      <h1 class="quiz-title">Challenge Your JavaScript Skills</h1>
+      <h2 class="under-title">Think you know JavaScript? Let's find out!</h2>
+      <button class="start-btn">Start the Quiz</button>
     </div>
 
-<div id="question-screen" class="hidden">
-    <h3 id="question-title">Här ska frågan visas</h3>
-    <div id="answer-container">
+    <div id="question-screen" class="hidden">
+      <h3 id="question-title">Här ska frågan visas</h3>
+      <div id="answer-container"></div>
+      <p id="feedback" class="hidden">Rätt/Fel feedback ska visas här</p>
+      <button class="next-btn" id="next-btn">Next</button>
     </div>
-    <button class="next-btn" id="next-btn">Next</button>
-</div>
 
-<div id="result-screen" class="hidden">
-    <h2 id="result-title">Your Results</h2>
-    <p id="score-summary"></p>
-    <button class="restart-btn" id="restart-btn">Restart Quiz</button>
-</div>
-
-</div>
+    <div id="result-screen" class="hidden">
+      <h2 id="result-title">Your Results</h2>
+      <p id="score-summary"></p>
+      <div id="detailed-results"></div>
+      <button class="restart-btn" id="restart-btn">Restart Quiz</button>
+    </div>
   </body>
 </html>
