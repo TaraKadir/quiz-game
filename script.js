@@ -58,3 +58,24 @@ const questions = [
     }
   ];
   
+  // Variabler för att hålla koll på quizstatus
+let currentQuestionIndex = 0; // Vilken fråga som visas
+let score = 0; // Användarens poäng
+
+// Funktion för att visa tidigare resultat på startsidan
+function showPreviousResults() {
+  const lastScore = localStorage.getItem("lastScore");
+  const highScore = localStorage.getItem("highScore");
+
+  if (lastScore) {
+    const previousResults = document.createElement("p");
+    previousResults.textContent = `Last Score: ${lastScore}`;
+    document.getElementById("start-screen").appendChild(previousResults);
+  }
+
+  if (highScore) {
+    const bestScore = document.createElement("p");
+    bestScore.textContent = `High Score: ${highScore}`;
+    document.getElementById("start-screen").appendChild(bestScore);
+  }
+}
