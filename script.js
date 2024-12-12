@@ -79,3 +79,25 @@ function showPreviousResults() {
     document.getElementById("start-screen").appendChild(bestScore);
   }
 }
+
+// Funktion som startar quizet
+function startQuiz() {
+    const savedIndex = localStorage.getItem("currentQuestionIndex");
+    if (savedIndex) {
+      currentQuestionIndex = parseInt(savedIndex, 10);
+    }
+  
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("question-screen").classList.remove("hidden");
+    showQuestion();
+  }
+  
+  // Funktion som visar frågan
+  function showQuestion() {
+    const questionData = questions[currentQuestionIndex];
+    const questionTitle = document.getElementById("question-title");
+    const answerContainer = document.getElementById("answer-container");
+  
+    // Sätt frågetext
+    questionTitle.textContent = questionData.question;
+  
