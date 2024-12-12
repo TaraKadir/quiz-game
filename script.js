@@ -101,3 +101,42 @@ function startQuiz() {
     // Sätt frågetext
     questionTitle.textContent = questionData.question;
   
+    // Rensa gamla svar
+  answerContainer.innerHTML = "";
+
+  if (questionData.type === "trueFalse") {
+    ["True", "False"].forEach((answer) => {
+      const button = document.createElement("button");
+      button.textContent = answer;
+      button.classList.add("answer-btn");
+      button.onclick = () => handleAnswer(answer.toLowerCase());
+      answerContainer.appendChild(button);
+    });
+  } else if (questionData.type === "multipleChoice") {
+    questionData.options.forEach((option) => {
+      const button = document.createElement("button");
+      button.textContent = option;
+      button.classList.add("answer-btn");
+      button.onclick = () => handleAnswer(option);
+      answerContainer.appendChild(button);
+    });
+  } else if (questionData.type === "checkbox") {
+    questionData.options.forEach((option) => {
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = option;
+      checkbox.name = "checkbox-answer";
+
+      const label = document.createElement("label");
+      label.textContent = option;
+      label.appendChild(checkbox);
+      answerContainer.appendChild(label);
+    });
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Submit";
+    submitButton.classList.add("answer-btn");
+    submitButton.onclick = handleCheckboxAnswer;
+    answerContainer.appendChild(submitButton);
+  }
+}
