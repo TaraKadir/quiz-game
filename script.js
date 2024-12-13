@@ -59,6 +59,11 @@ const questions = [
   }
 ];
 
+document.getElementById("toggle-mode").addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+});
+
+
 // Variabler för quizstatus
 let currentQuestionIndex = 0; // Håller koll på vilken fråga som visas
 let score = 0; // Räknar användarens poäng

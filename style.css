@@ -5,3 +5,15 @@
 .visible {
   display: block;
 }
+
+body.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+button {
+  background-color: #007bff;
+  color: white;
+}
+button:hover {
+  opacity: 0.9;
+}
