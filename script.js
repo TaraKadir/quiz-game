@@ -189,7 +189,7 @@ function goToNextQuestion() {
   }
 }
 
-// Visa resultatet
+// Visa resultatet, ska gömma frågeskärmen och bara visa resultatet
 function showResults() {
   document.getElementById("question-screen").classList.add("hidden");
   document.getElementById("result-screen").classList.remove("hidden");
@@ -197,8 +197,10 @@ function showResults() {
   const scoreSummary = document.getElementById("score-summary");
   const totalQuestions = questions.length;
 
+  // Visar den totala poängen
   scoreSummary.textContent = `You got ${score} out of ${totalQuestions} correct.`;
 
+  // Ska ändra färgen på reslutatet beroende på poängen
   const resultTitle = document.getElementById("result-title");
   if (score / totalQuestions < 0.5) {
     resultTitle.textContent = "Underkänt";
@@ -210,6 +212,27 @@ function showResults() {
     resultTitle.textContent = "Riktigt bra jobbat!";
     resultTitle.style.color = "green";
   }
+
+  // Visar detaljerad resultat för svaren
+  const detailedResults = document.getElementById("detailed-results");
+  detailedResults.innerHTML = ""; 
+
+  // Skapar en lista med rätt och fel 
+  questions.forEach((question, index) => {
+    const resultItem = document.createElement("p");
+    const userAnswer = localStorage.getItem(`answer-${index}`);
+    const isCorrect = 
+    question.type === "checkbox" 
+    ? JSON.parse(userAnswer).every((ans) => question.correctAnswers.includes(ans))
+    : userAnswer === question.correctAnswer;
+
+    resultItem.textContent = `Question ${index + 1}: ${
+      isCorrect ? "Correct" : "Wrong"
+      }`;
+      resultItem.style.color = isCorrect ? "green" : "red";
+
+      detailedResults.appendChild(resultItem);
+  });
 
   localStorage.setItem("lastScore", score); // Spara poäng
   const highScore = localStorage.getItem("highScore");

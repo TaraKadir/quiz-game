@@ -7,13 +7,13 @@
 }
 
 body.dark-mode {
-  background-color: #333;
+  background-color: #242323;
   color: #fff;
 }
 button {
-  background-color: #007bff;
+  background-color: darkgray;
   color: white;
 }
 button:hover {
-  opacity: 0.9;
+  opacity: 0.5;
 }
