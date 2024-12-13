@@ -89,8 +89,10 @@ function showPreviousResults() {
 // Starta quizet
 function startQuiz() {
   const savedIndex = localStorage.getItem("currentQuestionIndex");
-  if (savedIndex) {
+  if (savedIndex && savedIndex < questions.length) {
     currentQuestionIndex = parseInt(savedIndex, 10); // Hämta sparad fråga
+  } else {
+    currentQuestionIndex = 0;
   }
 
   // Visa frågeskärmen, göm startsidan
@@ -154,6 +156,7 @@ function showQuestion() {
 // Kontrollera svar för sant/falskt och flervalsfrågor
 function handleAnswer(selectedAnswer) {
   const questionData = questions[currentQuestionIndex];
+  localStorage.setItem(`answer-${currentQuestionIndex}`, selectedAnswer);
   if (selectedAnswer === questionData.correctAnswer) {
     score++; // Öka poängen om svaret är rätt
   }
@@ -166,6 +169,8 @@ function handleCheckboxAnswer() {
   const selectedAnswers = Array.from(
     document.querySelectorAll("input[name='checkbox-answer']:checked")
   ).map((checkbox) => checkbox.value);
+
+  localStorage.setItem(`answer-${currentQuestionIndex}`, JSON.stringify(selectedAnswers)); // Spara svar
 
   if (
     selectedAnswers.length === questionData.correctAnswers.length &&
