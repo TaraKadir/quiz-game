@@ -11,15 +11,29 @@ body.dark-mode {
   color: #fff;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
 button {
   background-color: darkgray;
   color: white;
   padding: 10px 20px;
-  margin: 10px 0;
+  margin: 10px;
   border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
   opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  button {
+    width: 80%;
+    font-size: 14px;
+  }
 }

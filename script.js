@@ -59,20 +59,22 @@ const questions = [
   }
 ];
 
+// Jag testade att lägga till dark mode här - det verkar fungera!
+// Togglar mellan ljus och mörk bakgrund
 document.getElementById("toggle-mode").addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 });
 
-
 // Variabler för quizstatus
-let currentQuestionIndex = 0; // Håller koll på vilken fråga som visas
-let score = 0; // Räknar användarens poäng
+let currentQuestionIndex = 0; // Har koll på vilken fråga som ska visas (börjar på 0!)
+let score = 0; // Håller reda på poängen för användaren
 
-// Visar tidigare resultat om det finns
+// Visar tidigare resultat om det finns sparat
 function showPreviousResults() {
-  const lastScore = localStorage.getItem("lastScore"); // Hämta senaste resultat
-  const highScore = localStorage.getItem("highScore"); // Hämta högsta resultat
+  const lastScore = localStorage.getItem("lastScore"); // Hämtar senaste resultatet
+  const highScore = localStorage.getItem("highScore"); // Hämtar högsta resultatet
 
+  // Visar tidigare resultat om det finns något
   if (lastScore) {
     const previousResults = document.createElement("p");
     previousResults.textContent = `Last Score: ${lastScore}`;
@@ -86,31 +88,30 @@ function showPreviousResults() {
   }
 }
 
-// Starta quizet
+// Börjar quizet - gömmer startsidan och visar första frågan
 function startQuiz() {
   const savedIndex = localStorage.getItem("currentQuestionIndex");
   if (savedIndex && savedIndex < questions.length) {
-    currentQuestionIndex = parseInt(savedIndex, 10); // Hämta sparad fråga
+    currentQuestionIndex = parseInt(savedIndex, 10); // Hämtar sparad fråga
   } else {
     currentQuestionIndex = 0;
   }
 
-  // Visa frågeskärmen, göm startsidan
-  document.getElementById("start-screen").classList.add("hidden");
-  document.getElementById("question-screen").classList.remove("hidden");
+  document.getElementById("start-screen").classList.add("hidden"); // Göm startsidan
+  document.getElementById("question-screen").classList.remove("hidden"); // Visa frågorna
   showQuestion();
 }
 
-// Visa en fråga
+// Visar en fråga
 function showQuestion() {
   const questionData = questions[currentQuestionIndex]; // Hämtar aktuell fråga
   const questionTitle = document.getElementById("question-title");
   const answerContainer = document.getElementById("answer-container");
 
-  questionTitle.textContent = questionData.question; // Sätt frågetext
-  answerContainer.innerHTML = ""; // Rensa gamla svar
+  questionTitle.textContent = questionData.question; // Sätter frågetext
+  answerContainer.innerHTML = ""; // Rensar gamla svar
 
-  // Skapa knappar för sant/falskt-frågor
+  // Skapar knappar för sant/falskt-frågor
   if (questionData.type === "trueFalse") {
     ["True", "False"].forEach((answer) => {
       const button = document.createElement("button");
@@ -120,7 +121,7 @@ function showQuestion() {
       answerContainer.appendChild(button);
     });
   }
-  // Skapa knappar för flervalsfrågor
+  // Skapar knappar för flervalsfrågor
   else if (questionData.type === "multipleChoice") {
     questionData.options.forEach((option) => {
       const button = document.createElement("button");
@@ -130,7 +131,7 @@ function showQuestion() {
       answerContainer.appendChild(button);
     });
   }
-  // Skapa checkrutor för checkbox-frågor
+  // Skapar checkrutor för checkbox-frågor
   else if (questionData.type === "checkbox") {
     questionData.options.forEach((option) => {
       const checkbox = document.createElement("input");
@@ -144,7 +145,7 @@ function showQuestion() {
       answerContainer.appendChild(label);
     });
 
-    // Lägg till en knapp för att skicka svar
+    // Lägger till en knapp för att skicka svar
     const submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
     submitButton.classList.add("answer-btn");
@@ -153,48 +154,74 @@ function showQuestion() {
   }
 }
 
-// Kontrollera svar för sant/falskt och flervalsfrågor
+// Kontrollerar svar för sant/falskt och flervalsfrågor
 function handleAnswer(selectedAnswer) {
+  const feedback = document.getElementById("feedback"); // Hämtar feedback-elementet
+  if (!feedback) return;
+
   const questionData = questions[currentQuestionIndex];
   localStorage.setItem(`answer-${currentQuestionIndex}`, selectedAnswer);
+ 
   if (selectedAnswer === questionData.correctAnswer) {
     score++; // Öka poängen om svaret är rätt
+    feedback.textContent = "Correct!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Wrong!";
+    feedback.style.color = "red";
   }
-  goToNextQuestion();
+
+  feedback.classList.remove("hidden"); // Visa feedback
+  setTimeout(() => {
+    feedback.classList.add("hidden"); // Göm feedback efter 1 sekund
+    goToNextQuestion();
+  }, 1000);
 }
 
-// Kontrollera svar för checkbox-frågor
+// Kontrollerar svar för checkbox-frågor
 function handleCheckboxAnswer() {
+  const feedback = document.getElementById("feedback"); // Hämtar feedback-elementet
+  if (!feedback) return;
+
   const questionData = questions[currentQuestionIndex];
   const selectedAnswers = Array.from(
     document.querySelectorAll("input[name='checkbox-answer']:checked")
   ).map((checkbox) => checkbox.value);
 
-  localStorage.setItem(`answer-${currentQuestionIndex}`, JSON.stringify(selectedAnswers)); // Spara svar
-
+  localStorage.setItem(`answer-${currentQuestionIndex}`, JSON.stringify(selectedAnswers));
   if (
     selectedAnswers.length === questionData.correctAnswers.length &&
     selectedAnswers.every((answer) => questionData.correctAnswers.includes(answer))
   ) {
     score++;
+    feedback.textContent = "Correct!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Wrong!";
+    feedback.style.color = "red";
   }
-  goToNextQuestion();
+
+  feedback.classList.remove("hidden");
+  setTimeout(() => {
+    feedback.classList.add("hidden");
+    goToNextQuestion();
+  }, 1000);
 }
 
-// Gå till nästa fråga eller visa resultat
+// Går till nästa fråga eller visar resultatet
 function goToNextQuestion() {
   currentQuestionIndex++;
-  localStorage.setItem("currentQuestionIndex", currentQuestionIndex); // Spara aktuell fråga
+  localStorage.setItem("currentQuestionIndex", currentQuestionIndex);
 
   if (currentQuestionIndex < questions.length) {
-    showQuestion(); // Visa nästa fråga
+    showQuestion();
   } else {
-    showResults(); // Visa resultat
+    showResults();
     localStorage.removeItem("currentQuestionIndex");
   }
 }
 
-// Visa resultatet, ska gömma frågeskärmen och bara visa resultatet
+// Visar resultatet
 function showResults() {
   document.getElementById("question-screen").classList.add("hidden");
   document.getElementById("result-screen").classList.remove("hidden");
@@ -205,7 +232,7 @@ function showResults() {
   // Visar den totala poängen
   scoreSummary.textContent = `You got ${score} out of ${totalQuestions} correct.`;
 
-  // Ska ändra färgen på reslutatet beroende på poängen
+  // Ändra färg baserat på resultat
   const resultTitle = document.getElementById("result-title");
   if (score / totalQuestions < 0.5) {
     resultTitle.textContent = "Underkänt";
@@ -218,35 +245,34 @@ function showResults() {
     resultTitle.style.color = "green";
   }
 
-  // Visar detaljerad resultat för svaren
+  // Detaljerade resultat för varje fråga
   const detailedResults = document.getElementById("detailed-results");
-  detailedResults.innerHTML = ""; 
+  detailedResults.innerHTML = ""; // Rensar tidigare resultat
 
-  // Skapar en lista med rätt och fel 
   questions.forEach((question, index) => {
     const resultItem = document.createElement("p");
     const userAnswer = localStorage.getItem(`answer-${index}`);
-    const isCorrect = 
-    question.type === "checkbox" 
-    ? JSON.parse(userAnswer).every((ans) => question.correctAnswers.includes(ans))
-    : userAnswer === question.correctAnswer;
+    const isCorrect =
+      question.type === "checkbox"
+        ? JSON.parse(userAnswer).every((ans) => question.correctAnswers.includes(ans))
+        : userAnswer === question.correctAnswer;
 
     resultItem.textContent = `Question ${index + 1}: ${
-      isCorrect ? "Correct" : "Wrong"
-      }`;
-      resultItem.style.color = isCorrect ? "green" : "red";
+      isCorrect ? "Correct" : `Wrong (Your answer: ${userAnswer})`
+    }`;
+    resultItem.style.color = isCorrect ? "green" : "red";
 
-      detailedResults.appendChild(resultItem);
+    detailedResults.appendChild(resultItem);
   });
 
-  localStorage.setItem("lastScore", score); // Spara poäng
+  localStorage.setItem("lastScore", score);
   const highScore = localStorage.getItem("highScore");
   if (!highScore || score > highScore) {
-    localStorage.setItem("highScore", score); // Uppdatera högsta poäng
+    localStorage.setItem("highScore", score);
   }
 }
 
-// Starta quizet och starta om quizet
+// Startar quizet och startar om quizet
 document.getElementById("start-btn").addEventListener("click", startQuiz);
 document.getElementById("restart-btn").addEventListener("click", () => {
   currentQuestionIndex = 0;
@@ -256,5 +282,5 @@ document.getElementById("restart-btn").addEventListener("click", () => {
   document.getElementById("start-screen").classList.remove("hidden");
 });
 
-// Visa tidigare resultat
+// Visar tidigare resultat
 showPreviousResults();
