@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+    <title>JavaScript Quiz</title>
+  </head>
+  <body>
+    <button id="toggle-mode">Dark Mode</button>
+
+    <div id="start-screen" class="visible">
+      <h1 class="quiz-title">Challenge Your JavaScript Skills</h1>
+      <h2 class="under-title">Think you know JavaScript? Let's find out!</h2>
+      <button id="start-btn">Start the Quiz</button>
+    </div>
+
+    <div id="question-screen" class="hidden">
+      <h3 id="question-title">Här ska frågan visas</h3>
+      <div id="answer-container"></div>
+      <p id="feedback" class="hidden">Rätt/Fel feedback ska visas här</p>
+    </div>
+
+    <div id="result-screen" class="hidden">
+      <h2 id="result-title">Your Results</h2>
+      <p id="score-summary"></p>
+      <div id="detailed-results"></div>
+      <button id="restart-btn">Restart Quiz</button>
+    </div>
+  </body>
+</html>
