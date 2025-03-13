@@ -1,41 +1,94 @@
-@import url('variables.css');
+/* Importera ett programmeringsvänligt typsnitt */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap");
 
-.hidden {
-  display: none;
-}
-
-.visible {
-  display: block;
-}
-
-body.dark-mode {
-  background-color: #242323;
-  color: #fff;
-}
-
+html,
 body {
-  font-family: Arial, sans-serif;
+  height: auto;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* Grundläggande styling */
+body {
+  font-family: "Fira Code", monospace;
+  background-color: #9c9c9a;
+  color: #f7df1e;
   text-align: center;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
+/* Bakgrundselement - Suddad kod i bakgrunden */
+body::before {
+  content: "console.log('Hello, JavaScript!'); function quiz() { return true; }";
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 1.3;
+  left: 10%;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.178);
+  font-weight: bold;
+  z-index: -1;
+}
+
+/* Knappar */
 button {
-  background-color: darkgray;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border-radius: 5px;
+  background: linear-gradient(135deg, #f7df1e, #e4c300);
+  color: #323330;
+  border: none;
+  padding: 8px 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  text-transform: uppercase;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 button:hover {
-  opacity: 0.5;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(247, 223, 30, 0.8);
 }
 
-@media (max-width: 768px) {
-  button {
-    width: 80%;
-    font-size: 14px;
-  }
+/* Quiz-kort (frågor och svar) */
+#question-screen,
+#start-screen,
+#result-screen {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(247, 223, 30, 0.3);
+  width: 90%;
+  max-width: 600px;
+  margin-top: 20px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* Kod-snippet styling */
+pre {
+  background-color: black;
+  padding: 15px;
+  border-radius: 8px;
+  color: #f7df1e;
+  font-size: 14px;
+  overflow-x: auto;
+  text-align: left;
+  box-shadow: 0px 0px 10px rgba(247, 223, 30, 0.2);
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #f7df1e;
 }
